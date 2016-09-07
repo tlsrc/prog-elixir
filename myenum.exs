@@ -18,5 +18,14 @@ defmodule MyEnum do
     end
   end
 
+  def split(list, count) when count >= 0, do: _split([], list, count)
+  def split(list, count) when count < 0, do: _split_reverse([], Enum.reverse(list), -count)
+  defp _split(a, b, 0), do: {Enum.reverse(a), b}
+  defp _split(a, [h|t], c), do: _split([h|a], t, c-1)
+  defp _split_reverse(a, b, 0), do: {Enum.reverse(b), a}
+  defp _split_reverse(a, [h|t], c), do: _split_reverse([h|a], t, c-1)
+
+
+
 
 end
