@@ -32,5 +32,11 @@ defmodule MyEnum do
   defp _take_reverse(acc, _enum, 0), do: acc
   defp _take_reverse(acc, [h|t], c), do: _take_reverse([h|acc], t, c-1)
 
+  def flatten(list), do: _flatten([], list)
+  defp _flatten(acc, []), do: Enum.reverse(acc)
+  defp _flatten(acc, [h|t]) when is_list(h), do: _flatten(Enum.reverse(flatten(h)) ++ acc, t)
+  defp _flatten(acc, [h|t]), do: _flatten([h|acc], t)
+
+
 
 end
