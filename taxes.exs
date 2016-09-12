@@ -1,4 +1,7 @@
 defmodule Taxes do
+  @moduledoc """
+  Cool module
+  """
   @rates [NC: 0.075, TX: 0.08]
   @orders [
     [id: 123, ship_to: :NC, net_amount: 100.00],
@@ -8,11 +11,21 @@ defmodule Taxes do
     [id: 127, ship_to: :NC, net_amount: 25.00],
     [id: 128, ship_to: :MA, net_amount: 10.00],
     [id: 129, ship_to: :CA, net_amount: 102.00],
-    [id: 130, ship_to: :NC, net_amount: 50.00]
+    [id: 130, ship_to: :NC, net_amount: 50.00],
   ]
 
   def calculate do
     for order <- @orders, do: _calc(order, @rates[order[:ship_to]])
+  end
+
+  @doc """
+  for fun
+  """
+  def no_dup? do
+    order_ids = @orders |> Enum.map(fn order -> order[:id] end)
+    order_ids
+      |> Enum.map(fn id -> Enum.count(order_ids, &(&1 === id)) end)
+      |> Enum.all?(fn id_count -> id_count === 1 end)
   end
 
   defp _calc(order, nil), do: order
